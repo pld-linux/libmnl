@@ -4,6 +4,7 @@
 %bcond_without	static_libs	# don't build static libraries
 #
 Summary:	A minimalistic user-space library oriented to Netlink developers
+Summary(pl.UTF-8):	Minimalistyczna biblioteka przestrzeni użytkownika dla programistów Netlinka
 Name:		libmnl
 Version:	1.0.1
 Release:	1
@@ -23,7 +24,7 @@ and easy to get wrong. This library aims to provide simple helpers
 that allows you to re-use code and to avoid re-inventing the wheel.
 The main features of this library are:
 
-- Small: the shared library requires around 30KB for an x86-based
+- Small: the shared library requires around 30kB for an x86-based
   computer.
 - Simple: this library avoids complexity and elaborated abstractions
   that tend to hide Netlink details.
@@ -35,6 +36,27 @@ The main features of this library are:
 - Decoupling: the interdependency of the main bricks that compose the
   library is reduced, i.e. the library provides many helpers, but the
   programmer is not forced to use them.
+
+%description -l pl.UTF-8
+libmnl to minimalistyczna biblioteka przestrzeni użytkownika
+przeznaczona dla programistów interfejsu Netlink. Wiele wspólnych
+zadań, takich jak analiza, sprawdzanie poprawności i tworzenie
+zarówno nagłówka Netlink, jak i TLV jest powtarzalnych i łatwo w nich
+o błędy. Ta biblioteka ma na celu dostarczenie prostych funkcji
+pomocniczych, pozwalających wykorzystywać ten sam kod i zapobiegająca
+wynajdowaniu koła na nowo. Główne cechy tej biblioteki to:
+ - mały rozmiar: biblioteka współdzielona dla x86 wymaga ok. 30kB
+ - prostota: biblioteka unika złożoności i szczegółowych abstrakcji,
+   które kryją się w szczegółach Netlinka
+ - łatwość użycia: biblioteka upraszcza pracę programistów
+   interfejsu Netlink; dostarcza funkcje ułatwiające obsługę gniazd,
+   tworzenie komunikatów, sprawdzanie poprawności, analizę i śledzenie
+   sekwencji
+ - łatwość ponownego wykorzystania: biblioteki można użyć do
+   stworzenia własnej warstwy abstrakcji poziom wyżej
+ - niezależność: zależności między poszczególnymi elementami
+   biblioteki są ograniczone, tzn. biblioteka udostępnia wiele funkcji
+   pomocniczych, ale programista nie musi używać ich wszystkich.
 
 %package devel
 Summary:	Header files for libmnl library
@@ -105,7 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libmnl.so
+%attr(755,root,root) %{_libdir}/libmnl.so
 %{_libdir}/libmnl.la
 %{_includedir}/libmnl
 %{_pkgconfigdir}/libmnl.pc
