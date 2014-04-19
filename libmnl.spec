@@ -13,7 +13,10 @@ Group:		Libraries
 Source0:	http://www.netfilter.org/projects/libmnl/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	7d95fc3bea3365bc03c48e484224f65f
 URL:		http://www.netfilter.org/projects/libmnl/index.html
+BuildRequires:	autoconf >= 2.50
+BuildRequires:	automake >= 1.6
 %{?with_apidocs:BuildRequires:	doxygen}
+BuildRequires:	libtool >= 2:2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
