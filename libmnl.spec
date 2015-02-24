@@ -7,7 +7,7 @@ Summary:	A minimalistic user-space library oriented to Netlink developers
 Summary(pl.UTF-8):	Minimalistyczna biblioteka przestrzeni użytkownika dla programistów Netlinka
 Name:		libmnl
 Version:	1.0.3
-Release:	1
+Release:	2
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	http://www.netfilter.org/projects/libmnl/files/%{name}-%{version}.tar.bz2
