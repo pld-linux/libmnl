@@ -2,12 +2,12 @@
 # Conditional build:
 %bcond_without	apidocs		# do not build and package API docs
 %bcond_without	static_libs	# don't build static libraries
-#
+
 Summary:	A minimalistic user-space library oriented to Netlink developers
 Summary(pl.UTF-8):	Minimalistyczna biblioteka przestrzeni użytkownika dla programistów Netlinka
 Name:		libmnl
 Version:	1.0.3
-Release:	2
+Release:	3
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	http://www.netfilter.org/projects/libmnl/files/%{name}-%{version}.tar.bz2
@@ -43,23 +43,22 @@ The main features of this library are:
 %description -l pl.UTF-8
 libmnl to minimalistyczna biblioteka przestrzeni użytkownika
 przeznaczona dla programistów interfejsu Netlink. Wiele wspólnych
-zadań, takich jak analiza, sprawdzanie poprawności i tworzenie
-zarówno nagłówka Netlink, jak i TLV jest powtarzalnych i łatwo w nich
-o błędy. Ta biblioteka ma na celu dostarczenie prostych funkcji
-pomocniczych, pozwalających wykorzystywać ten sam kod i zapobiegająca
-wynajdowaniu koła na nowo. Główne cechy tej biblioteki to:
+zadań, takich jak analiza, sprawdzanie poprawności i tworzenie zarówno
+nagłówka Netlink, jak i TLV jest powtarzalnych i łatwo w nich o błędy.
+Ta biblioteka ma na celu dostarczenie prostych funkcji pomocniczych,
+pozwalających wykorzystywać ten sam kod i zapobiegająca wynajdowaniu
+koła na nowo. Główne cechy tej biblioteki to:
  - mały rozmiar: biblioteka współdzielona dla x86 wymaga ok. 30kB
  - prostota: biblioteka unika złożoności i szczegółowych abstrakcji,
    które kryją się w szczegółach Netlinka
- - łatwość użycia: biblioteka upraszcza pracę programistów
-   interfejsu Netlink; dostarcza funkcje ułatwiające obsługę gniazd,
-   tworzenie komunikatów, sprawdzanie poprawności, analizę i śledzenie
-   sekwencji
- - łatwość ponownego wykorzystania: biblioteki można użyć do
-   stworzenia własnej warstwy abstrakcji poziom wyżej
- - niezależność: zależności między poszczególnymi elementami
-   biblioteki są ograniczone, tzn. biblioteka udostępnia wiele funkcji
-   pomocniczych, ale programista nie musi używać ich wszystkich.
+ - łatwość użycia: biblioteka upraszcza pracę programistów interfejsu
+   Netlink; dostarcza funkcje ułatwiające obsługę gniazd, tworzenie
+   komunikatów, sprawdzanie poprawności, analizę i śledzenie sekwencji
+ - łatwość ponownego wykorzystania: biblioteki można użyć do stworzenia
+   własnej warstwy abstrakcji poziom wyżej
+ - niezależność: zależności między poszczególnymi elementami biblioteki
+   są ograniczone, tzn. biblioteka udostępnia wiele funkcji pomocniczych,
+   ale programista nie musi używać ich wszystkich.
 
 %package devel
 Summary:	Header files for libmnl library
@@ -89,6 +88,9 @@ Statyczna biblioteka libmnl.
 Summary:	libmnl API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libmnl
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API and internal documentation for libmnl library.
