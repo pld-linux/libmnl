@@ -88,9 +88,7 @@ Statyczna biblioteka libmnl.
 Summary:	libmnl API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libmnl
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 API and internal documentation for libmnl library.
