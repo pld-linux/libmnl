@@ -17,6 +17,7 @@ BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.6
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	libtool >= 2:2
+BuildRequires:	rpm-build >= 4.6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
