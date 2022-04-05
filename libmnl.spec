@@ -6,12 +6,12 @@
 Summary:	A minimalistic user-space library oriented to Netlink developers
 Summary(pl.UTF-8):	Minimalistyczna biblioteka przestrzeni użytkownika dla programistów Netlinka
 Name:		libmnl
-Version:	1.0.4
+Version:	1.0.5
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://www.netfilter.org/projects/libmnl/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	be9b4b5328c6da1bda565ac5dffadb2d
+# Source0-md5:	0bbb70573119ec5d49435114583e7a49
 URL:		http://www.netfilter.org/projects/libmnl/index.html
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.6
@@ -107,7 +107,8 @@ Dokumentacja API biblioteki libmnl.
 %{__automake}
 %configure \
 	--disable-silent-rules \
-	%{?with_static_libs:--enable-static}
+	%{?with_static_libs:--enable-static} \
+	%{!?with_apidocs:--without-doxygen}
 %{__make}
 %{?with_apidocs:doxygen doxygen.cfg}
 
