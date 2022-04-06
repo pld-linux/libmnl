@@ -119,6 +119,13 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%if %{with apidocs}
+# junk
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man3/_*.3
+# too common names
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man3/{attr,batch,callback,socket}.3
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -137,6 +144,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libmnl.la
 %{_includedir}/libmnl
 %{_pkgconfigdir}/libmnl.pc
+%if %{with apidocs}
+%{_mandir}/man3/mnl_*.3*
+%{_mandir}/man3/nlmsg.3*
+%endif
 
 %if %{with static_libs}
 %files static
