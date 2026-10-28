@@ -1,0 +1,62 @@
+From 754c9de5ea1bea821495523cf01989299552e524 Mon Sep 17 00:00:00 2001
+From: Jeremy Sowden <jeremy@azazel.net>
+Date: Sat, 4 Nov 2023 23:01:54 +0000
+Subject: [PATCH] nlmsg: fix false positives when validating buffer sizes
+
+The `len` parameter of `mnl_nlmsg_ok`, which holds the buffer length and
+is compared to the size of the object expected to fit into the buffer,
+is signed because the function validates the length, and it can be
+negative in the case of malformed messages.  Comparing it to unsigned
+operands used to lead to compiler warnings:
+
+  msg.c: In function 'mnl_nlmsg_ok':
+  msg.c:136: warning: comparison between signed and unsigned
+  msg.c:138: warning: comparison between signed and unsigned
+
+and so commit 73661922bc3b ("fix warning in compilation due to different
+signess") added casts of the unsigned operands to `int`.  However, the
+comparison to `nlh->nlmsg_len`:
+
+  (int)nlh->nlmsg_len <= len
+
+is problematic, since `nlh->nlmsg_len` is of type `__u32` and so may
+hold values greater than `INT_MAX`.  In the case where `len` is positive
+and `nlh->nlmsg_len` is greater than `INT_MAX`, the cast will yield a
+negative value and `mnl_nlmsg_ok` will incorrectly return true.
+
+Instead, assign `len` to an unsigned local variable, check for a
+negative value first, then use the unsigned local for the other
+comparisons, and remove the casts.
+
+Closes: https://bugzilla.netfilter.org/show_bug.cgi?id=1691
+Fixes: 73661922bc3b ("fix warning in compilation due to different signess")
+Signed-off-by: Jeremy Sowden <jeremy@azazel.net>
+Signed-off-by: Pablo Neira Ayuso <pablo@netfilter.org>
+---
+ src/nlmsg.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/src/nlmsg.c b/src/nlmsg.c
+index c634501..30a7e63 100644
+--- a/src/nlmsg.c
++++ b/src/nlmsg.c
+@@ -152,9 +152,14 @@ EXPORT_SYMBOL void *mnl_nlmsg_get_payload_offset(const struct nlmsghdr *nlh,
+  */
+ EXPORT_SYMBOL bool mnl_nlmsg_ok(const struct nlmsghdr *nlh, int len)
+ {
+-	return len >= (int)sizeof(struct nlmsghdr) &&
++	size_t ulen = len;
++
++	if (len < 0)
++		return false;
++
++	return ulen           >= sizeof(struct nlmsghdr) &&
+ 	       nlh->nlmsg_len >= sizeof(struct nlmsghdr) &&
+-	       (int)nlh->nlmsg_len <= len;
++	       nlh->nlmsg_len <= ulen;
+ }
+ 
+ /**
+-- 
+2.56.0
+

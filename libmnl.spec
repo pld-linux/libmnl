@@ -7,12 +7,14 @@ Summary:	A minimalistic user-space library oriented to Netlink developers
 Summary(pl.UTF-8):	Minimalistyczna biblioteka przestrzeni użytkownika dla programistów Netlinka
 Name:		libmnl
 Version:	1.0.5
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://www.netfilter.org/projects/libmnl/files/%{name}-%{version}.tar.bz2
+Source0:	https://www.netfilter.org/projects/libmnl/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	0bbb70573119ec5d49435114583e7a49
-URL:		http://www.netfilter.org/projects/libmnl/index.html
+# mnl_nlmsg_ok() accepted nlmsg_len > INT_MAX; upstream 754c9de5ea1b
+Patch0:		%{name}-nlmsg-ok-len.patch
+URL:		https://www.netfilter.org/projects/libmnl/index.html
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.6
 %{?with_apidocs:BuildRequires:	doxygen}
@@ -99,6 +101,7 @@ Dokumentacja API biblioteki libmnl.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
 %{__libtoolize}
@@ -120,8 +123,6 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 %if %{with apidocs}
-# junk
-%{__rm} $RPM_BUILD_ROOT%{_mandir}/man3/_*.3
 # too common names
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/man3/{attr,batch,callback,socket}.3
 %endif
